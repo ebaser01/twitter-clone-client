@@ -1,5 +1,5 @@
-import React, { useState, useHistory} from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState} from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../common/hooks';
 import { logout } from '../features/user/usersSlice';
