@@ -106,7 +106,7 @@ const Navigation = ()=>{
 
     const handleLogout = async ()=>{
         await dispatch(logout());
-        history.push("/login");
+        history.push("/");
     }
 
     return(
@@ -119,9 +119,10 @@ const Navigation = ()=>{
                 <NavLink to="/search"  ><NavigationItem text={"Search"} icon={"fa-search"}/></NavLink>
                 <NavigationItem text={"Notifications"} icon={"fa-bell"}/>
                 <NavLink to={'/users/' + username}><NavigationItem text={"Profile"} icon={"fa-user"}/></NavLink>
+                <Button size={'xl'} onClick={handleLogout}>Logout </Button>
                 </ul>
             </StyledNav>
-            <Button size={'xl'} onClick={handleLogout}>Logout </Button>
+            
         </Container>
       
     );
