@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useHistory} from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
-import { useAppSelector } from '../common/hooks';
+import { useAppDispatch, useAppSelector } from '../common/hooks';
+import { logout } from '../features/user/usersSlice';
+import { Button } from './Buttons';
 import NavigationItem from './NavigationItem';
 
 const slideDown = keyframes`
@@ -92,11 +94,19 @@ const NavLink = styled(Link)`
 const Navigation = ()=>{
 
     const [navActive, setNavActive]  = useState(false);
+    const history = useHistory();
 
     const username = useAppSelector(state=>state.user.username);
+    const dispatch = useAppDispatch();
 
+    
     const handleStatus = ()=>{
         setNavActive(!navActive);
+    }
+
+    const handleLogout = async ()=>{
+        await dispatch(logout());
+        history.push("/login");
     }
 
     return(
@@ -111,6 +121,7 @@ const Navigation = ()=>{
                 <NavLink to={'/users/' + username}><NavigationItem text={"Profile"} icon={"fa-user"}/></NavLink>
                 </ul>
             </StyledNav>
+            <Button size={'xl'} onClick={handleLogout}>Logout </Button>
         </Container>
       
     );

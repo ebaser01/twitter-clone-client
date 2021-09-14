@@ -37,7 +37,8 @@ export const userSlice = createSlice({
 
     reducers: {
         logout: (state) => {
-            state.isAuth = false;
+            state =  {id: "", isAuth:false, loading:false, username:"", profileImgUrl: "", isError: false, following: [], followed: []};
+            localStorage.removeItem('user');
         }
     },
 
