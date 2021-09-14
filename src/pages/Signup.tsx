@@ -12,6 +12,7 @@ import checkmark from '../components/Form/icons/green-checkmark.svg'
 import axios from 'axios';
 import { useAppSelector } from '../common/hooks';
 import Header from '../components/Header';
+import { API_PREFIX } from '../api/RequestHandler';
 
 const StyledSignup = styled.div`
     width: fit-content;
@@ -70,7 +71,7 @@ const Signup = ()=>{
 
             axios({
                 method: "post",
-                url: "http://localhost:8080/signup",
+                url: `${API_PREFIX}/signup`,
                 data: formData,
                 headers: { "Content-Type": "multipart/form-data"}
             })

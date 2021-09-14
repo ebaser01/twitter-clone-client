@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_PREFIX = "https://enigmatic-depths-73300.herokuapp.com/";
+export const API_PREFIX = "https://enigmatic-depths-73300.herokuapp.com/";
 
 
 export const enum reqMethod{
