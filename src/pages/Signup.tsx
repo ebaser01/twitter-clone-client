@@ -71,7 +71,7 @@ const Signup = ()=>{
 
             axios({
                 method: "post",
-                url: `${API_PREFIX}/signup`,
+                url: `${API_PREFIX}signup`,
                 data: formData,
                 headers: { "Content-Type": "multipart/form-data"}
             })

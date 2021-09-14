@@ -12,7 +12,7 @@ const initialState: IUserState = user ? {id: user.id, isAuth:true, loading:false
 export const login = createAsyncThunk('user/login', async ({username, password}:{username:string, password:string}, {rejectWithValue}) => {
 
     try {
-        const response = await axios.post(`${API_PREFIX}/login`, {username, password});
+        const response = await axios.post(`${API_PREFIX}login`, {username, password});
         localStorage.setItem('user', JSON.stringify(response.data));
         return response.data;
     } catch (error) {
