@@ -106,7 +106,7 @@ const Navigation = ()=>{
 
     const handleLogout = async ()=>{
         await dispatch(logout());
-        history.push("/");
+        history.go(0);
     }
 
     return(
