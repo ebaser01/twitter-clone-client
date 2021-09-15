@@ -59,7 +59,7 @@ const Comment = (props: {author:string, content:string, img:string, date:string,
             
             <Link to={'/users/' + props.author}><StyledImg src={props.img} alt=""/></Link>
             <div>
-                <Username> <StyledLink to={`/user/` + props.author}>{props.author}</StyledLink></Username>
+                <Username> <StyledLink to={`/users/` + props.author}>{props.author}</StyledLink></Username>
                 <Reply>Replying to <Link style={{textDecoration: 'none', color:"inherit"}} to={`/user/${props.parent}`}>@{props.parent}</Link></Reply>
                 <TextContainer>
                     {props.content}
