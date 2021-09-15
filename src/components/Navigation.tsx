@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { NavLink, Link, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../common/hooks';
 import { logout } from '../features/user/usersSlice';
@@ -84,13 +84,6 @@ const Background = styled.div<{navActive:boolean}>`
     }
 `;
 
-const NavLink = styled(Link)`
-    text-decoration: none;
-    color: inherit;
-    &:visited{
-        color: black;
-    }
-`;
 
 const WhiteButton = styled(Button)`
 
@@ -100,6 +93,23 @@ const WhiteButton = styled(Button)`
     }
     
 `;
+
+const StyledNavLink = styled(NavLink)`
+    text-decoration: none;
+    &:visited{
+        color: inherit;
+    }
+    &.${props=> props.activeClassName}{
+        text-decoration: none;
+        font-weight: bold;
+        color:#1DA1F2;
+    }
+    @media (max-width:768px){
+        width: 100%;
+        display: inherit;
+    }
+`;
+
 const Navigation = ()=>{
 
     const [navActive, setNavActive]  = useState(false);
@@ -118,16 +128,18 @@ const Navigation = ()=>{
         history.go(0);
     }
 
+
+    
     return(
         <Container>
             <StyledHamburger navActive={navActive} onClick={handleStatus} ><i className={"fas fa-2x" + (navActive? " fa-times" : " fa-bars")}></i></StyledHamburger>
             <Background navActive={navActive}/>
             <StyledNav navActive={navActive}>
                 <ul>
-                <NavLink to="/"  ><NavigationItem text={"Home"} icon={"fa-home"}/></NavLink>
-                <NavLink to="/search"  ><NavigationItem text={"Search"} icon={"fa-search"}/></NavLink>
+                <StyledNavLink exact to="/"  activeClassName='nav-active' ><NavigationItem text={"Home"} icon={"fa-home"}/></StyledNavLink>
+                <StyledNavLink to="/search"  activeClassName='nav-active' onClick={handleStatus}><NavigationItem text={"Search"} icon={"fa-search"}/></StyledNavLink>
                 <NavigationItem text={"Notifications"} icon={"fa-bell"}/>
-                <NavLink to={'/users/' + username}><NavigationItem text={"Profile"} icon={"fa-user"}/></NavLink>
+                <StyledNavLink exact to={'/users/' + username} activeClassName='nav-active' onClick={handleStatus}><NavigationItem text={"Profile"} icon={"fa-user"}/></StyledNavLink>
                 <WhiteButton size={'xl'} onClick={handleLogout}>Logout </WhiteButton>
                 </ul>
             </StyledNav>

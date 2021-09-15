@@ -17,7 +17,8 @@ const MainLayout = styled.div`
     }
     @media (max-width:768px){
         width: 100%;
-        display: initial;
+        display: inherit;
+        margin-top: 50px;
     }
 `;
 
