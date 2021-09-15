@@ -96,6 +96,7 @@ const WhiteButton = styled(Button)`
 
 const StyledNavLink = styled(NavLink)`
     text-decoration: none;
+    color: black;
     &:visited{
         color: inherit;
     }
