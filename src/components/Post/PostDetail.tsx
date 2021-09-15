@@ -32,9 +32,7 @@ const PostDetail = ()=>{
             try {
                 const postData = await apiRequest(reqMethod.GET, `user/${userId}/posts/${postId}`);
                 await dispatch(fetchComments({username: userId, postId: postId}));
-                console.log(postData?.data.post);
                 setPost(postData?.data.post);
-                
 
             } catch (error) {
                 console.log(error);

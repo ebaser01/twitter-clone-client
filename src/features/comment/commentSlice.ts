@@ -7,7 +7,6 @@ export const fetchComments = createAsyncThunk('comment/fetchComments', async ({u
     try {
         const response = await apiRequest(reqMethod.GET, `user/${username}/posts/${postId}/comments`);
         if(!response) throw new Error("No response");
-        console.log(response.data.result);
         return response.data.result.comments;
     } catch (error) {
         console.log(error);

@@ -52,7 +52,7 @@ const StyledHamburger = styled.button<{navActive: boolean}>`
     background: none;
     width: 2rem;
     position: absolute;
-    right: 1.3rem;
+    left: 1.3rem;
     top: 1rem;
     z-index: 9999;
     @media (min-width:768px){
@@ -91,6 +91,15 @@ const NavLink = styled(Link)`
         color: black;
     }
 `;
+
+const WhiteButton = styled(Button)`
+
+    @media (max-width: 768px){
+        background-color: white;
+        color: var(--primary-background)
+    }
+    
+`;
 const Navigation = ()=>{
 
     const [navActive, setNavActive]  = useState(false);
@@ -119,7 +128,7 @@ const Navigation = ()=>{
                 <NavLink to="/search"  ><NavigationItem text={"Search"} icon={"fa-search"}/></NavLink>
                 <NavigationItem text={"Notifications"} icon={"fa-bell"}/>
                 <NavLink to={'/users/' + username}><NavigationItem text={"Profile"} icon={"fa-user"}/></NavLink>
-                <Button size={'xl'} onClick={handleLogout}>Logout </Button>
+                <WhiteButton size={'xl'} onClick={handleLogout}>Logout </WhiteButton>
                 </ul>
             </StyledNav>
             

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../../common/hooks';
 import { createPost} from '../../features/post/postsSlice';
 import { Button } from '../Buttons';
+import { StyledError } from '../Form/Error';
 import { InputContainer } from './InputContainer';
 import { StyledImg } from './ProfilePic';
 
@@ -37,23 +38,31 @@ const PostButton = styled(Button)`
     bottom: 0;
 `;
 
-
+const Error = styled(StyledError)`
+    position: absolute;
+    height: 2rem;
+    bottom: 0;
+    padding: 0.5rem;
+    z-index: 9;
+`;
 
 const NewPost = ()=>{
 
     const [content, setContent] = useState<string>("");
+    const [err, setErr] = useState<string>("");
     
     const dispatch = useAppDispatch();
 
     const user = useAppSelector(state=> state.user);
 
     const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>)=>{
-        if(!e.currentTarget.value){
+        if(content!==""){
             await dispatch(createPost({username: user.username, content: content}));
             setContent("");
+            setErr("");
         }
         else{
-            setContent("Text field can not be empty")
+            setErr("Text field can not be empty")
         }
         
     };
@@ -62,11 +71,13 @@ const NewPost = ()=>{
         setContent(e.currentTarget.value);
     };
 
+
     return(
         <Container>
+            {err && <Error>{err}</Error>}
             <StyledImg src={user.profileImgUrl} alt=""/>
             <InputContainer>
-                <StyledInput placeholder={"What's hapenning?"} onChange={handleChange} value={content} cols={40} minLength={1} maxLength={140} ></StyledInput>
+                <StyledInput onFocus={()=> {setErr("")}} placeholder={"What's hapenning?"} onChange={handleChange} value={content} cols={40} minLength={1} maxLength={140}></StyledInput>
                 <PostButton onClick={handleSubmit}  size="m">Post</PostButton>
             </InputContainer>
             

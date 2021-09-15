@@ -34,7 +34,6 @@ const UserList = ()=>{
             try {
                 const response = await apiRequest(reqMethod.GET, 'user');
                 setUserList(response?.data.userList);
-                console.log(response?.data)
             } catch (error) {
                 console.log(error);
             }

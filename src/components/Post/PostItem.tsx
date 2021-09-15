@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { apiRequest, reqMethod } from '../../api/RequestHandler';
-import { useAppSelector } from '../../common/hooks';
+import { useAppDispatch, useAppSelector } from '../../common/hooks';
+import { postLiked } from '../../features/post/postsSlice';
 import { StyledImg } from './ProfilePic';
 
 
@@ -85,16 +86,17 @@ const PostItem = (props: {author:string, content:string, img:string, date:string
 
     const user = useAppSelector(state=> state.user);
 
+    const dispatch = useAppDispatch();
+
     useEffect(()=>{
         setAlreadyLiked(props.likes.includes(user.id));
-
-    },[])
+        setLikes(props.likes.length);
+    },[props.likes])
 
     const handleLike = async ()=>{
         try {
-            const res = await apiRequest(reqMethod.UPDATE, `user/${props.author}/posts/${props.id}/like`);
+            await dispatch(postLiked({postId: props.id, username: props.author}));
             setAlreadyLiked(!alreadyLiked);
-            setLikes(res?.data.likes);
         } catch (error) {
             console.log(error);
         }

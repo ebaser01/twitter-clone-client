@@ -39,7 +39,7 @@ border-bottom: 1px solid #cccccc;
 
 const FollowButton = styled(Button)`
     position: absolute;
-    right: 0;
+    right: 1rem;
 `;
 
 const ProfileBanner = (props: {username:string, image_url:string, followers: Array<string>,followingCount: number, postCount: number})=>{

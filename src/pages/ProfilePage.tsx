@@ -22,7 +22,6 @@ const ProfilePage = ()=>{
             try {
                 const userData = await apiRequest(reqMethod.GET, `user/${userId}`);
                 const postData = await apiRequest(reqMethod.GET, `user/${userId}/posts`);
-                console.log(userData?.data);
                 setUser(userData?.data.user);
                 setPosts(postData?.data.postList);
             } catch (error) {
