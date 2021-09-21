@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { apiRequest, reqMethod } from '../../api/RequestHandler';
 import { IAuthorType } from '../../common/type';
+import userService from '../../services/userService';
 import { StyledImg } from '../Post/ProfilePic';
 
 
@@ -32,7 +32,7 @@ const UserList = ()=>{
     useEffect(()=>{
         const fetchUsers = async ()=>{
             try {
-                const response = await apiRequest(reqMethod.GET, 'user');
+                const response = await userService.fetchUsers();
                 setUserList(response?.data.userList);
             } catch (error) {
                 console.log(error);

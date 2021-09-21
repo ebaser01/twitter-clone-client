@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
-import { apiRequest, reqMethod } from '../../api/RequestHandler';
 import { useAppDispatch, useAppSelector } from '../../common/hooks';
 import { postLiked } from '../../features/post/postsSlice';
 import { StyledImg } from './ProfilePic';

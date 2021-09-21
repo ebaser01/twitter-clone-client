@@ -1,7 +1,6 @@
 import {createSlice , PayloadAction, createAsyncThunk  } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { API_PREFIX } from '../../api/RequestHandler';
 import { IUserState } from '../../common/type';
+import userService from '../../services/userService';
 
 let user_raw = localStorage.getItem('user');
 let user = user_raw ? JSON.parse(user_raw) : undefined;
@@ -12,7 +11,7 @@ const initialState: IUserState = user ? {id: user.id, isAuth:true, loading:false
 export const login = createAsyncThunk('user/login', async ({username, password}:{username:string, password:string}, {rejectWithValue}) => {
 
     try {
-        const response = await axios.post(`${API_PREFIX}login`, {username, password});
+        const response = await userService.login(username,password);
         localStorage.setItem('user', JSON.stringify(response.data));
         return response.data;
     } catch (error) {
@@ -21,15 +20,6 @@ export const login = createAsyncThunk('user/login', async ({username, password}:
     
     
 });
-
-/*const initialState: IUserState = {
-    isAuth: false,
-    name: "",
-    profileImgUrl: "",
-    loading: false,
-}*/
-
-
 
 export const userSlice = createSlice({
     name: 'user',

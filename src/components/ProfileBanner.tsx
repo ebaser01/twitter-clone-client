@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { apiRequest, reqMethod } from '../api/RequestHandler';
 import { useAppSelector } from '../common/hooks';
+import userService from '../services/userService';
 import { Button } from './Buttons';
 
 
@@ -58,7 +58,7 @@ const ProfileBanner = (props: {username:string, image_url:string, followers: Arr
     const handleFollow = async()=>{
         
         try {
-            const response = await apiRequest(reqMethod.UPDATE, `user/${props.username}/follow`);
+            const response = await userService.followUser(props.username);
             setFollowing(!following);
         } catch (error) {
             console.log(error);

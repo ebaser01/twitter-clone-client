@@ -1,14 +1,13 @@
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { apiRequest, reqMethod } from '../../api/RequestHandler';
 import { useAppDispatch, useAppSelector } from '../../common/hooks';
-import { IAuthorType, IPost } from '../../common/type';
 import {fetchComments } from '../../features/comment/commentSlice';
 import NewComment from './NewComment';
 import PostItem from './PostItem';
 import Comment from './Comment';
+import { fetchSinglePost } from '../../features/post/postsSlice';
 
 
 const StyledLoading = styled.div`
@@ -20,19 +19,18 @@ const StyledLoading = styled.div`
 
 const PostDetail = ()=>{
 
-    const [post, setPost] = useState<IPost>();
-
     const comments = useAppSelector(state=> state.comment);
+    const post = (useAppSelector(state=> state.post.posts))[0];
+    const loading = useAppSelector(state=> state.post.loading);
     const dispatch = useAppDispatch();
 
-    let {userId, postId} = useParams<{userId:string, postId:string}>();
+    let {username, postId} = useParams<{username:string, postId:string}>();
 
     useEffect(()=>{
         const fetchPost = async ()=>{
             try {
-                const postData = await apiRequest(reqMethod.GET, `user/${userId}/posts/${postId}`);
-                await dispatch(fetchComments({username: userId, postId: postId}));
-                setPost(postData?.data.post);
+                await dispatch(fetchSinglePost({username: username, postId: postId}));
+                await dispatch(fetchComments({username: username, postId: postId}));
 
             } catch (error) {
                 console.log(error);
@@ -49,7 +47,9 @@ const PostDetail = ()=>{
         {(!comments.loading && post) && 
         <div>
 
-        <PostItem author={post.author.username} likes={post.likes} numberOfComments={comments.comments.length}  content={post.content} img={post.author.image_url} id={post._id} date={moment(post.created).format("DD/MM/YY HH:mm")}/>
+        {(!loading) && <PostItem author={post.author.username} likes={post.likes} numberOfComments={comments.comments.length}  content={post.content} 
+        img={post.author.image_url} id={post._id} date={moment(post.created).format("DD/MM/YY HH:mm")}/>}    
+        
         <NewComment postId={post._id}></NewComment>
         {comments.comments.length!==0 &&
         <ul>

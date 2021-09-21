@@ -1,29 +1,33 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { apiRequest, reqMethod } from '../api/RequestHandler';
+import userService from '../services/userService';
 import { IAuthorType, IPost } from '../common/type';
 import PostItem from '../components/Post/PostItem';
 import ProfileBanner from '../components/ProfileBanner';
+import { useAppDispatch, useAppSelector } from '../common/hooks';
+import { fetchUserPosts } from '../features/post/postsSlice';
 
 
 
 
 const ProfilePage = ()=>{
 
-    const {userId} = useParams<{userId:string}>();
+    const {username} = useParams<{username:string}>();
+    
+    const dispatch = useAppDispatch();
 
     const [user, setUser] = useState<IAuthorType>();
-    const [posts, setPosts] = useState<Array<IPost>>();
     const [loading, setLoading] = useState<boolean>();
+
+    const posts = useAppSelector(state=> state.post.posts);
 
     useEffect(()=>{
         const fetchUser = async()=>{
             try {
-                const userData = await apiRequest(reqMethod.GET, `user/${userId}`);
-                const postData = await apiRequest(reqMethod.GET, `user/${userId}/posts`);
+                const userData = await userService.fetchUser(username);
+                await dispatch(fetchUserPosts(username));
                 setUser(userData?.data.user);
-                setPosts(postData?.data.postList);
             } catch (error) {
                 console.log(error);
             }

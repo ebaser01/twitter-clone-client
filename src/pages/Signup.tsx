@@ -12,7 +12,7 @@ import checkmark from '../components/Form/icons/green-checkmark.svg'
 import axios from 'axios';
 import { useAppSelector } from '../common/hooks';
 import Header from '../components/Header';
-import { API_PREFIX } from '../api/RequestHandler';
+import { API_PREFIX } from '../api/ApiCommon';
 
 const StyledSignup = styled.div`
     width: fit-content;

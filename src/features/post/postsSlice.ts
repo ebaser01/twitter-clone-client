@@ -1,11 +1,11 @@
 import {createAsyncThunk, createSlice, current, PayloadAction} from '@reduxjs/toolkit';
-import {apiRequest, reqMethod} from '../../api/RequestHandler';
 import { IPost } from '../../common/type';
+import userService from '../../services/userService';
 
-export const fetchPosts = createAsyncThunk('post/fetchPosts', async ({username}:{username:string}, {rejectWithValue})=>{
+export const fetchFeed = createAsyncThunk('post/fetchFeed', async ({username}:{username:string}, {rejectWithValue})=>{
     
     try {
-        const response = await apiRequest(reqMethod.GET, `user/${username}/feed/`);
+        const response = await userService.fetchFeed(username);
         if(!response) throw new Error("No response");
         return response.data.postList;
         
@@ -16,10 +16,38 @@ export const fetchPosts = createAsyncThunk('post/fetchPosts', async ({username}:
 
 });
 
+export const fetchSinglePost = createAsyncThunk('post/fetchSinglePost', async ({username, postId}:{username:string, postId:string}, {rejectWithValue})=>{
+    
+    try {
+        const response = await userService.fetchSinglePost(username, postId);
+        if(!response) throw new Error("No response");
+        return response.data.post;
+        
+    } catch (error) {
+        localStorage.removeItem('user');
+    }
+    
+
+});
+
+export const fetchUserPosts = createAsyncThunk('post/fetchUserPosts', async (username:string, {rejectWithValue})=>{
+
+    try {
+        const response = await userService.fetchUserPosts(username);
+        if(!response) throw new Error("No response");
+        return response.data.postList;
+        
+    } catch (error) {
+        localStorage.removeItem('user');
+    }
+    
+
+})
+
 export const createPost = createAsyncThunk('post/createPost', async ({username, content}:{username:string, content:string}, {rejectWithValue})=>{
     
     try {
-        const response = await apiRequest(reqMethod.POST, `user/${username}/posts/`, {content: content}); 
+        const response = await userService.createPost(username,content); 
         if(!response) throw new Error("No response");
         return response.data;
     } catch (error) {
@@ -32,7 +60,7 @@ export const createPost = createAsyncThunk('post/createPost', async ({username, 
 
 export const postLiked = createAsyncThunk('post/likePost', async ({postId, username}:{postId:string, username:string}, {rejectWithValue})=>{
     try {
-        const response = await apiRequest(reqMethod.UPDATE, `user/${username}/posts/${postId}/like`); 
+        const response = await userService.likePost(username,postId); 
         if(!response) throw new Error("No response");
         return {...response.data, postId};
     } catch (error) {
@@ -44,9 +72,10 @@ export const postLiked = createAsyncThunk('post/likePost', async ({postId, usern
 });
 
 
-const initialState:{posts:Array<any>, loading:boolean} = {
+const initialState:{posts:Array<any>, post: any, loading:boolean} = {
     posts: [],
-    loading: false,
+    post: {},
+    loading: true,
 }
 
 export const postSlice = createSlice({
@@ -58,10 +87,27 @@ export const postSlice = createSlice({
     },
 
     extraReducers: (builder)=>{
-        builder.addCase(fetchPosts.pending, (state)=>{
+        builder.addCase(fetchFeed.pending, (state)=>{
+            state.posts= [];
             state.loading = true;
         })
-        .addCase(fetchPosts.fulfilled, (state, action:PayloadAction<any>)=>{
+        .addCase(fetchFeed.fulfilled, (state, action:PayloadAction<any>)=>{
+            state.posts = action.payload;
+            state.loading = false; 
+        })
+        .addCase(fetchSinglePost.pending, (state)=>{
+            state.posts= [];
+            state.loading = true;
+        })
+        .addCase(fetchSinglePost.fulfilled, (state, action:PayloadAction<any>)=>{
+            state.posts = [action.payload];
+            state.loading = false; 
+        })
+        .addCase(fetchUserPosts.pending, (state)=>{
+            state.posts= [];
+            state.loading = true;
+        })
+        .addCase(fetchUserPosts.fulfilled, (state, action:PayloadAction<any>)=>{
             state.posts = action.payload;
             state.loading = false; 
         })

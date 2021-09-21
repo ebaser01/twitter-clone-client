@@ -1,11 +1,11 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {apiRequest, reqMethod} from '../../api/RequestHandler';
+import userService from '../../services/userService';
 
 
 export const fetchComments = createAsyncThunk('comment/fetchComments', async ({username,postId}:{username:string, postId:string}, {rejectWithValue})=>{
     
     try {
-        const response = await apiRequest(reqMethod.GET, `user/${username}/posts/${postId}/comments`);
+        const response = await userService.fetchComments(username,postId);
         if(!response) throw new Error("No response");
         return response.data.result.comments;
     } catch (error) {
@@ -18,7 +18,7 @@ export const fetchComments = createAsyncThunk('comment/fetchComments', async ({u
 export const createComment = createAsyncThunk('comment/createPost', async ({username, content, postId}:{username:string, content:string, postId:string}, {rejectWithValue})=>{
     
     try {
-        const response = await apiRequest(reqMethod.POST, `user/${username}/posts/${postId}/comments`, {content: content});
+        const response = await userService.createComment(username,postId,content);
         if(!response) throw new Error("No response");
         return response.data;
     } catch (error) {

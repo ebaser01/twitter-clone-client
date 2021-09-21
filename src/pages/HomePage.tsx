@@ -18,8 +18,8 @@ const HomePage = ()=>{
             <Navigation/>
             <Switch>
                 <Route exact path="/" component={PostList}/>
-                <Route path="/users/:userId/posts/:postId" component={PostDetail}/>
-                <Route path="/users/:userId/" component={ProfilePage}/>
+                <Route path="/users/:username/posts/:postId" component={PostDetail}/>
+                <Route path="/users/:username/" component={ProfilePage}/>
                 <Route path="/search/" component={UserList}/>
             </Switch>
            

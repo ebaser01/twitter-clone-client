@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../../common/hooks';
 import { IPost } from '../../common/type';
-import { fetchPosts } from '../../features/post/postsSlice';
+import { fetchFeed } from '../../features/post/postsSlice';
 import NewPost from './NewPost';
 import PostItem from './PostItem';
 
@@ -29,7 +29,7 @@ const PostList = () => {
     const dispatch = useAppDispatch();
 
     useEffect(()=>{
-        dispatch(fetchPosts({username: user.username}));
+        dispatch(fetchFeed({username: user.username}));
     },[]);
 
     return(
